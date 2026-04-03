@@ -1,0 +1,172 @@
+  <div id="tooltip" style="
+  position: fixed;
+  pointer-events: none;
+  background: rgba(0,0,0,0.85);
+  color: white;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  display: none;
+  z-index: 9999;
+  white-space: nowrap;
+  "></div>
+
+<div id="topbar">
+
+  <div class="topbar-section">
+
+    <div class="search-box">
+      <input id="search-input" placeholder="Buscar ID" />
+      <button id="search-btn">Buscar</button>
+    </div>
+
+    <select id="filtro-area">
+      <option value="TODAS">TODAS</option>
+      <option value="GENERAL">GENERAL</option>
+      <option value="VIP">VIP</option>
+    </select>
+
+    <select id="filtro-estado">
+      <option value="TODOS">TODOS</option>
+      <option value="MASTER">MASTER</option>
+    </select>
+
+  </div>
+
+
+  <div class="topbar-section">
+
+    <button id="toggle-areas">Áreas</button>
+    <button id="btn-add">＋</button>
+    <button id="btn-select">Seleccionar</button>
+    <button id="toggle-sidebar">Sidebar</button>
+    <div class="menu-wrapper">
+      <button id="btn-datos">Datos ▾</button>
+      <div id="menu-datos" class="menu-datos">
+        <div id="menu-fuera">Fuera de sala</div>
+        <div id="menu-ramclear">Historial RamClear</div>
+        <div id="menu-columnas">Columnas</div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="topbar-section">
+
+    <input type="file" id="excel-input" accept=".xlsx" style="display:none">
+
+    <button id="btn-load-excel">Excel</button>
+    <button id="btn-save-project">Guardar</button>
+    <button id="btn-export-excel">Exportar</button>
+    <button id="btn-export-pdf">PDF</button>
+
+  </div>
+
+
+  <button id="btn-clear-history"
+        style="
+        width:1px;
+        height:1px;
+        opacity:0;
+        border:none;
+        background:none;
+        ">
+  </button>
+
+  <div id="machine-menu" style="
+  position:fixed;
+  background:#2b2f36;
+  border:1px solid #444;
+  border-radius:8px;
+  display:none;
+  z-index:99999;
+  min-width:140px;
+  ">
+
+    <div data-action="rotar">Rotar</div>
+    <div data-action="duplicar">Duplicar</div>
+    <div data-action="ramclear">RamClear</div>
+    <div data-action="eliminar">Eliminar</div>
+
+  </div>
+
+
+
+</div>
+
+<div id="update-container"></div>
+
+<div id="app"></div>
+
+<div id="sidebar">
+
+  <div id="sidebar-header">
+    <h3>Máquina</h3>
+
+    <div id="tabs">
+      <button data-tab="info" class="active">Info</button>
+      <button data-tab="licencia">TimeBomb</button>
+    </div>
+  </div>
+
+  <div id="sidebar-content">
+
+    <div id="tab-info" class="tab active"></div>
+    <div id="tab-licencia" class="tab"></div>
+
+  </div>
+
+</div>
+
+<div id="toast" style="
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: #222;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 9999;
+"></div>
+
+<div id="alert-container" style="
+  position: fixed;
+  top: 60px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 9999;
+"></div>
+
+<div id="ramclear-modal" style="
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+">
+  <div style="
+    background:#1f1f1f;
+    color:white;
+    padding:20px;
+    width:500px;
+    max-height:80vh;
+    border-radius:8px;
+    display:flex;
+    flex-direction:column;
+  ">
+    <div id="ramclear-scroll"
+        style="overflow-y:auto;flex:1;padding-right:6px;">
+      <div id="ramclear-content"></div>
+    </div>
+  </div>
+  </div>
+</div>

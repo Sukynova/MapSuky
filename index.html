@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Casino Layout</title>
+
+<link rel="stylesheet" href="./ui/styles.css">
+
+</head>
+
+<body>
+  
+<div id="layout-root"></div>
+
+
+<script src="./libs/xlsx.full.min.js"></script>
+<script src="./libs/jspdf.umd.min.js"></script>
+<script src="./libs/svg2pdf.umd.min.js"></script>
+
+<script type="module">
+
+  async function cargarLayout() {
+
+    const html =
+      await fetch("./ui/layout.html")
+        .then(r => r.text());
+
+    document
+      .getElementById("layout-root")
+      .innerHTML = html;
+
+  }
+
+  await cargarLayout();
+  const tooltip = document.getElementById("tooltip");
+  await import("./core/main.js");
+
+  // 🔥 HISTORIAL RAM CLEAR
+  let ramClearHistory = [];
+  window.ramClearHistory = ramClearHistory;
+  //=======================++++++++++++++++++++++++
+    //=======================++++++++++++++++++++++++
+      //=======================++++++++++++++++++++++++
+        //=======================++++++++++++++++++++++++
+          //=======================++++++++++++++++++++++++
+            //=======================++++++++++++++++++++++++
+              //=======================++++++++++++++++++++++++
+                //=======================++++++++++++++++++++++++
+  import { maquinas } from "./core/dataStore.js";
+  import "./modules/selection.js";
+
+  import { inicializarEditorColumnas } from "./modules/columnEditor.js";
+  import { importarExcel } from "./modules/excelManager.js";
+  import { inicializarExpansion } from "./modules/expansion.js";
+
+  import { crearMaquina, actualizarTransformacion } from "./modules/maquinas.js";
+  window.crearMaquina = crearMaquina;
+  window.actualizarTransformacion = actualizarTransformacion;
+
+  import { detectarArea,getCentroReal } from "./modules/areas.js";
+  window.detectarArea = detectarArea;
+  window.getCentroReal = getCentroReal;
+
+  import { mostrarInfo,mostrarPanelMultiple,limpiarSidebar } from "./ui/sidebar.js";
+  window.mostrarInfo = mostrarInfo;
+  window.mostrarPanelMultiple = mostrarPanelMultiple;
+  window.limpiarSidebar = limpiarSidebar;
+
+  import { mostrarTooltip,moverTooltip,ocultarTooltip } from "./ui/tooltip.js";
+  window.mostrarTooltip = mostrarTooltip;
+  window.moverTooltip = moverTooltip;
+  window.ocultarTooltip = ocultarTooltip;
+
+  import {estadoLicencia,actualizarTimebombs,actualizarVistaLicencia,actualizarColorLicencia,iniciarLicencia,resetLicencia,iniciarLicenciaMasiva,aplicarRotacionMasiva } from "./modules/licencia.js";
+  window.estadoLicencia = estadoLicencia;
+  window.actualizarTimebombs = actualizarTimebombs;
+  window.actualizarVistaLicencia = actualizarVistaLicencia;
+  window.actualizarColorLicencia = actualizarColorLicencia;
+  window.iniciarLicencia = iniciarLicencia;
+  window.resetLicencia = resetLicencia;
+  window.iniciarLicenciaMasiva = iniciarLicenciaMasiva;
+  window.aplicarRotacionMasiva = aplicarRotacionMasiva;
+
+  import {abrirRamClear,aplicarRamClear,abrirEditorRamClear,generarVistaDatos,registrarEventoRamClear} from "./modules/ramclear.js";
+  window.abrirRamClear = abrirRamClear;
+  window.aplicarRamClear = aplicarRamClear;
+  window.abrirEditorRamClear = abrirEditorRamClear;
+  window.generarVistaDatos = generarVistaDatos;
+  window.registrarEventoRamClear = registrarEventoRamClear;
+
+  import {aplicarFiltros,actualizarFiltroEstados,buscarMaquinaPorID,normalizarEstado} from "./modules/filtros.js";
+  window.aplicarFiltros = aplicarFiltros;
+  window.actualizarFiltroEstados = actualizarFiltroEstados;
+  window.buscarMaquinaPorID = buscarMaquinaPorID;
+  window.normalizarEstado = normalizarEstado;
+
+  import {showToast,crearAlertaVencida,crearAlertaAzul} from "./modules/alerts.js";
+  window.showToast = showToast;
+  window.crearAlertaVencida = crearAlertaVencida;
+  window.crearAlertaAzul = crearAlertaAzul;
+
+  import {cargarProyecto,guardarProyecto,exportarExcel,exportarPDF} from "./modules/proyecto.js";
+  window.cargarProyecto = cargarProyecto;
+  window.guardarProyecto = guardarProyecto;
+  window.exportarExcel = exportarExcel;
+  window.exportarPDF = exportarPDF;
+
+  import {initMenuDatos} from "./ui/menu.js";
+
+  import {initTopbar} from "./ui/topbar.js";
+
+  import {initTabs} from "./ui/tabs.js";
+
+  import {initContextMenu} from "./modules/contextMenu.js";
+
+  import { agregarMaquinaNueva } from "./modules/addMachine.js";
+  window.agregarMaquinaNueva = agregarMaquinaNueva;
+
+  import {initSearch} from "./modules/search.js";
+
+  import {haySeleccion, renderListaSeleccionadas, actualizarIndicadoresMaster,hacerIndependiente,quitarEsclava,clonarMaquina} from "./modules/masterSlave.js";
+  window.actualizarIndicadoresMaster = actualizarIndicadoresMaster;
+  window.hacerIndependiente = hacerIndependiente;
+  window.quitarEsclava = quitarEsclava;
+  window.clonarMaquina = clonarMaquina;
+  window.renderListaSeleccionadas = renderListaSeleccionadas;
+  window.haySeleccion = haySeleccion;
+
+  import {iniciarTimerLicencia} from "./modules/timer.js";
+
+  window.seleccionarMaquina = seleccionarMaquina;
+  window.maquinas = maquinas;
+
+  //=======================++++++++++++++++++++++++
+    //=======================++++++++++++++++++++++++
+      //=======================++++++++++++++++++++++++
+        //=======================++++++++++++++++++++++++
+          //=======================++++++++++++++++++++++++
+            //=======================++++++++++++++++++++++++
+              //=======================++++++++++++++++++++++++
+                //=======================++++++++++++++++++++++++
+                  //=======================++++++++++++++++++++++++
+
+  window.addEventListener("refrescarMaquina", e => {
+    const id = e.detail;
+    if (maquinas[id]) {
+      mostrarInfo(maquinas[id]);
+    }
+  });
+
+  window.addEventListener("excelActualizado", () => {
+    if (seleccionada && maquinas[seleccionada.dataset.id]) {
+      mostrarInfo(maquinas[seleccionada.dataset.id]);
+    } else {
+      document.getElementById("tab-info").innerHTML =
+        "<em>Selecciona una máquina</em>";
+    }
+  });
+
+    cargarProyecto();
+ 
+
+
+
+document
+  .getElementById("btn-save-project")
+  .addEventListener("click", guardarProyecto);
+
+  document.getElementById("btn-load-excel").onclick = () => {
+    document.getElementById("excel-input").click();
+  };
+
+  document.getElementById("excel-input").addEventListener("change", e => {
+
+    const file = e.target.files[0];
+    if (!file) return;
+
+    importarExcel(file, maquinas, window.mapLayer, crearMaquina, window.viewBox);
+    actualizarFiltroEstados();
+
+    // 🔥 CLAVE PARA QUE SIEMPRE PUEDAS VOLVER A CARGAR
+    e.target.value = "";
+  });
+
+  document.getElementById("btn-datos").onclick = () => {
+
+    document.getElementById("btn-clear-history")?.click();
+
+  };
+
+
+function obtenerIdsSeleccionados() {
+    if (seleccionMultiple && seleccionadas.size > 0) {
+      return [...seleccionadas];
+    }
+    if (seleccionada) {
+      return [seleccionada.dataset.id];
+    }
+    return [];
+  }
+
+  document.getElementById("tab-info").innerHTML =
+      "<em>Selecciona una máquina</em>";
+    document.getElementById("tab-licencia").innerHTML =
+      "<em>Sin selección</em>";
+
+  
+  const SNAP_DIST = 10; // píxeles de tolerancia
+
+const svgNS = "http://www.w3.org/2000/svg";
+
+let sidebarVisible = true;
+
+function seleccionarMaquina(g) {
+  document.getElementById("sidebar").style.display = "block";
+
+  if (seleccionada) {
+    seleccionada.classList.remove("selected");
+  }
+
+  seleccionada = g;
+  g.classList.add("selected");
+
+  const m = maquinas[g.dataset.id];
+  const centro = getCentroReal(g);
+  m.layout.area = detectarArea(centro.x, centro.y, g);
+
+  mostrarInfo(m);
+
+  if (m.licencia.activa) {
+    actualizarVistaLicencia(m);
+  }
+}
+
+
+let dragging = null;
+let dragStart = { x: 0, y: 0 };
+let machineStart = [];
+
+document.getElementById("filtro-area")
+  .addEventListener("change", aplicarFiltros);
+
+document.getElementById("filtro-estado")
+  .addEventListener("change", aplicarFiltros);
+
+
+
+
+document
+  .getElementById("btn-export-pdf")
+  .addEventListener("click", exportarPDF);
+
+document
+  .getElementById("btn-export-excel")
+  .addEventListener("click", exportarExcel);
+
+
+inicializarExpansion();
+inicializarEditorColumnas();
+initMenuDatos();
+initTopbar();
+initTabs();
+initContextMenu();
+initSearch();
+iniciarTimerLicencia();
+
+
+</script>
+
+</body>
+</html>
