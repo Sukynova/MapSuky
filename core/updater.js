@@ -1,5 +1,5 @@
 
-const VERSION_ACTUAL = "1.0.1";
+const VERSION_ACTUAL = "1.0.2";
 
 export async function checkUpdate() {
 
