@@ -1,101 +1,110 @@
+const { ipcRenderer } = require("electron");
 
-const VERSION_ACTUAL = "1.0.1";
+// 🔥 versión actual (luego la hacemos automática)
+const VERSION_ACTUAL = "1.0.2";
 
+// 🔥 URL base (SIN nocache aquí)
+const VERSION_URL = "https://raw.githubusercontent.com/Sukynova/MapSuky/main/version.json";
+
+
+// ===============================
+// 🔍 CHECK UPDATE
+// ===============================
 export async function checkUpdate() {
+  console.log("🔍 Buscando actualizaciones...");
 
   try {
-
-    const res = await fetch("version.json");
+    // ✅ nocache SOLO AQUÍ
+    const res = await fetch(VERSION_URL + "?nocache=" + Date.now());
     const data = await res.json();
 
-    if (data.version !== VERSION_ACTUAL) {
+    console.log("🌐 Versión en servidor:", data.version);
+    console.log("💻 Versión actual:", VERSION_ACTUAL);
 
+    if (esVersionMasNueva(data.version, VERSION_ACTUAL)) {
       console.log("🆕 Update disponible:", data.version);
-
       mostrarUpdateUI(data);
-
     } else {
-
       console.log("✔ Sistema actualizado");
-
     }
 
   } catch (err) {
-
-    console.error("Error al buscar update:", err);
-
+    console.error("❌ Error al buscar update:", err);
   }
-
 }
 
 
+// ===============================
+// 🧠 COMPARAR VERSIONES
+// ===============================
+function esVersionMasNueva(vServer, vLocal) {
+  const server = vServer.split(".").map(Number);
+  const local = vLocal.split(".").map(Number);
+
+  for (let i = 0; i < 3; i++) {
+    if (server[i] > local[i]) return true;
+    if (server[i] < local[i]) return false;
+  }
+
+  return false;
+}
+
+
+// ===============================
+// 🎨 UI DEL UPDATE
+// ===============================
 function mostrarUpdateUI(data) {
 
   const container = document.getElementById("update-container");
-  if (!container) return;
+  if (!container) {
+    console.warn("⚠ No existe #update-container");
+    return;
+  }
 
-  if (document.getElementById("update-box")) return;
+  // mostrar contenedor
+  container.style.display = "block";
 
-  const div = document.createElement("div");
-  div.id = "update-box";
-  div.classList.add("update-box");
+  // colocar versión
+  const versionSpan = document.getElementById("update-version");
+  if (versionSpan) {
+    versionSpan.textContent = data.version;
+  }
 
-  div.innerHTML = `
-    <div class="update-text">
-      <span>Nueva actualización</span>
-      <span>Disponible</span>
-    </div>
+  // botón actualizar
+  const btnUpdate = document.getElementById("btn-update");
+  if (btnUpdate) {
+    btnUpdate.onclick = async () => {
+      btnUpdate.textContent = "Descargando...";
+      btnUpdate.disabled = true;
 
-    <button id="btn-update">Actualizar</button>
-    <span id="btn-close-update" class="update-close">✖</span>
-  `;
+      await aplicarUpdate();
 
-  container.appendChild(div);
+      container.style.display = "none";
+    };
+  }
 
-  document.getElementById("btn-update").onclick = async () => {
-    const btn = document.getElementById("btn-update");
-
-    btn.textContent = "Descargando...";
-    btn.disabled = true;
-
-    await aplicarUpdate();
-
-    div.remove();
-  };
-
-  document.getElementById("btn-close-update").onclick = () => {
-    div.remove();
-  };
+  // botón cerrar
+  const btnClose = document.getElementById("btn-close-update");
+  if (btnClose) {
+    btnClose.onclick = () => {
+      container.style.display = "none";
+    };
+  }
 }
 
 
+// ===============================
+// ⬇ DESCARGAR Y EJECUTAR UPDATE
+// ===============================
 async function aplicarUpdate() {
-
   try {
+    console.log("⬇ Ejecutando actualización...");
 
-    console.log("⬇ Descargando actualización...");
+    await ipcRenderer.invoke("descargar-update");
 
-    const res = await fetch("updates/update.zip");
-
-    if (!res.ok) throw new Error("No se encontró update.zip");
-
-    const blob = await res.blob();
-
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "update.zip";
-    a.click();
-
-    URL.revokeObjectURL(url);
-
-    alert("✔ Update descargado");
+    console.log("🚀 Instalador lanzado");
 
   } catch (err) {
-
-    console.error("Error descargando update:", err);
-
+    console.error("❌ Error en update:", err);
   }
-
 }

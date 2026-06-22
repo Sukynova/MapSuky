@@ -8,6 +8,9 @@ export function bindMachineDrag(g, m, getSVGPoint) {
 
   g.addEventListener("mousedown", e => {
 
+    if (!window.modoEditor)
+    return;
+
     e.stopPropagation();
 
     setPanning(false);

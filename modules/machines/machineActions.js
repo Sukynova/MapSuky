@@ -1,3 +1,6 @@
+import { mostrarInputDialog }
+from "../inputDialog.js";
+
 export function eliminarMaquina(m) {
 
   if (!confirm("Eliminar máquina?")) return;
@@ -19,12 +22,13 @@ export function eliminarMaquina(m) {
 }
 
 
-export function rotarMaquina(m) {
+export async function rotarMaquina(m) {
 
-  const ang = prompt(
-    "Rotación (0-359):",
-    m.layout.rot || 0
-  );
+  const ang = await mostrarInputDialog({
+      titulo: "Rotación",
+      valorInicial: m.layout.rot || 0,
+      placeholder: "0 - 359"
+    });
 
   if (ang === null) return;
 

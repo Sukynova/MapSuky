@@ -1,3 +1,6 @@
+import { mostrarInputDialog }
+from "./inputDialog.js";
+
 import { maquinas } from "../core/dataStore.js";
 
 export function haySeleccion() {
@@ -146,7 +149,7 @@ export function quitarEsclava(
 }
 
 
-export function clonarMaquina(
+export async function clonarMaquina(
   idOriginal
 ) {
 
@@ -154,13 +157,15 @@ export function clonarMaquina(
     maquinas[idOriginal];
 
   const nuevoId =
-    prompt("Nuevo ID:");
+    await mostrarInputDialog({
+      titulo: "Clonar máquina",
+      placeholder: "Nuevo ID"
+    });
 
   if (!nuevoId) return;
 
   if (maquinas[nuevoId])
     return;
-
 
   maquinas[nuevoId] =
     JSON.parse(
@@ -175,7 +180,6 @@ export function clonarMaquina(
 
   maquinas[nuevoId]
     .layout.slaves = [];
-
 
   window.crearMaquina(
     maquinas[nuevoId]
